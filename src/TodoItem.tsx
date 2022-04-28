@@ -1,12 +1,12 @@
-import { ForwardedRef, forwardRef, MouseEvent } from "react";
+import { ForwardedRef, forwardRef } from "react";
 import { TodoType, UpdateRefType } from "./TodoTypes";
 import DeleteButton from "./ui/DeleteButton";
 import EditButton from "./ui/EditButton";
 
 interface TodoItemProp {
   todo: TodoType;
-  onDelete: (event: MouseEvent) => void;
-  onEdit: (event: MouseEvent, edit: boolean) => void;
+  onDelete: (event: React.MouseEvent) => void;
+  onEdit: (event: React.MouseEvent, edit: boolean) => void;
 }
 
 const TodoItem = forwardRef(
