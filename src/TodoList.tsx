@@ -1,6 +1,5 @@
-import { MouseEvent, FormEvent, useEffect, useRef, useReducer } from "react";
-import { data } from "./data";
-import { reducer } from "./TodoReducer";
+import { useEffect, useRef, useContext } from "react";
+import { TodoContext } from "./TodoContext";
 import { UpdateRefType } from "./TodoTypes";
 import SubmitButton from "./ui/SubmitButton";
 import TodoItem from "./TodoItem";
@@ -11,27 +10,22 @@ import {
   editTodo,
 } from "./TodoActionCreators";
 
-const initialState = {
-  todos: data,
-  editTodo: "",
-};
-
 function TodoList() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const { state, dispatch } = useContext(TodoContext);
   const addInputRef = useRef<HTMLInputElement | null>(null);
   const updateInputRef = useRef<UpdateRefType>({} as UpdateRefType);
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     dispatch(addTodo(addInputRef.current?.value));
   };
 
-  const handleDelete = (event: MouseEvent) => {
+  const handleDelete = (event: React.MouseEvent) => {
     const id = event.currentTarget.id;
     dispatch(deleteTodo(id));
   };
 
-  const handleEditUpdate = (event: MouseEvent, edit: boolean) => {
+  const handleEditUpdate = (event: React.MouseEvent, edit: boolean) => {
     const value = updateInputRef.current[event.currentTarget.id]?.value;
     const id = event.currentTarget.id;
     edit ? dispatch(updateTodo(id, value)) : dispatch(editTodo(id));
