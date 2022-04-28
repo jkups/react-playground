@@ -1,17 +1,14 @@
 import { ForwardedRef, forwardRef } from "react";
 import { TodoType, UpdateRefType } from "./TodoTypes";
-import DeleteButton from "./ui/DeleteButton";
-import EditButton from "./ui/EditButton";
 
 interface TodoItemProp {
   todo: TodoType;
-  onDelete: (event: React.MouseEvent) => void;
-  onEdit: (event: React.MouseEvent, edit: boolean) => void;
+  children: React.ReactNode;
 }
 
 const TodoItem = forwardRef(
   (
-    { todo, onDelete, onEdit }: TodoItemProp,
+    { todo, children }: TodoItemProp,
     updateRef: ForwardedRef<UpdateRefType>
   ) => {
     return (
@@ -26,10 +23,7 @@ const TodoItem = forwardRef(
         ) : (
           <div className="mb-3">{todo.title}</div>
         )}
-        <div className="flex gap-x-2">
-          <DeleteButton id={todo.id} onDelete={onDelete} />
-          <EditButton id={todo.id} edit={todo.edit} onEdit={onEdit} />
-        </div>
+        <div className="flex gap-x-2">{children}</div>
       </div>
     );
   }

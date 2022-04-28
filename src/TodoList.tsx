@@ -3,6 +3,8 @@ import { TodoContext } from "./TodoContext";
 import { UpdateRefType } from "./TodoTypes";
 import SubmitButton from "./ui/SubmitButton";
 import TodoItem from "./TodoItem";
+import DeleteButton from "./ui/DeleteButton";
+import EditButton from "./ui/EditButton";
 import {
   addTodo,
   deleteTodo,
@@ -59,13 +61,14 @@ function TodoList() {
       </form>
       <section>
         {state.todos.map((todo) => (
-          <TodoItem
-            ref={updateInputRef}
-            key={todo.id}
-            todo={todo}
-            onDelete={handleDelete}
-            onEdit={handleEditUpdate}
-          />
+          <TodoItem ref={updateInputRef} key={todo.id} todo={todo}>
+            <DeleteButton id={todo.id} onDelete={handleDelete} />
+            <EditButton
+              id={todo.id}
+              edit={todo.edit}
+              onEdit={handleEditUpdate}
+            />
+          </TodoItem>
         ))}
       </section>
     </div>
