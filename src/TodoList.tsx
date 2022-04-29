@@ -60,16 +60,20 @@ function TodoList() {
         <SubmitButton title="add" />
       </form>
       <section>
-        {state.todos.map((todo) => (
-          <TodoItem ref={updateInputRef} key={todo.id} todo={todo}>
-            <DeleteButton id={todo.id} onDelete={handleDelete} />
-            <EditButton
-              id={todo.id}
-              edit={todo.edit}
-              onEdit={handleEditUpdate}
-            />
-          </TodoItem>
-        ))}
+        {state.todos.length ? (
+          state.todos.map((todo) => (
+            <TodoItem ref={updateInputRef} key={todo.id} todo={todo}>
+              <DeleteButton id={todo.id} onDelete={handleDelete} />
+              <EditButton
+                id={todo.id}
+                edit={todo.edit}
+                onEdit={handleEditUpdate}
+              />
+            </TodoItem>
+          ))
+        ) : (
+          <p className="mt-4">Loading....</p>
+        )}
       </section>
     </div>
   );

@@ -1,13 +1,14 @@
-import { useReducer, createContext } from "react";
+import { useEffect, useReducer, createContext } from "react";
 import { reducer } from "./TodoReducer";
-import { StateType, TodoActionType } from "./TodoTypes";
-import { data } from "./data";
+import { TodoStateType, TodoActionType } from "./TodoTypes";
+import fetchTodos from "./common/fetchTodos";
+import useThunkReducer from "./hooks/useThunkReducer";
 
 interface TodoContextProviderProp {
   children: React.ReactNode;
 }
 
-const initialState: StateType = { todos: data, editTodo: "" };
+const initialState: TodoStateType = { todos: [], editTodo: "" };
 const dispatch: React.Dispatch<TodoActionType> = () => null;
 
 export const TodoContext = createContext({
@@ -16,7 +17,9 @@ export const TodoContext = createContext({
 });
 
 const TodoContextProvider = ({ children }: TodoContextProviderProp) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useThunkReducer(reducer, initialState);
+
+  useEffect(() => dispatch(fetchTodos), []);
 
   return (
     <TodoContext.Provider value={{ state, dispatch }}>

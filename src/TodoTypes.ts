@@ -13,6 +13,11 @@ interface UpdateTodoAction {
   payload: { id: string; value: string };
 }
 
+interface LoadTodoAction {
+  type: "LOAD_TODOS";
+  payload: { todos: TodoType[] };
+}
+
 export type UpdateRefType = {
   [key: string]: HTMLInputElement;
 };
@@ -23,9 +28,13 @@ export interface TodoType {
   edit: boolean;
 }
 
-export interface StateType {
+export interface TodoStateType {
   todos: TodoType[];
   editTodo: string;
 }
 
-export type TodoActionType = BasicTodoAction | AddTodoAction | UpdateTodoAction;
+export type TodoActionType =
+  | BasicTodoAction
+  | AddTodoAction
+  | UpdateTodoAction
+  | LoadTodoAction;

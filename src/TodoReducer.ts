@@ -1,7 +1,11 @@
-import { StateType, TodoType, TodoActionType } from "./TodoTypes";
+import { TodoStateType, TodoType, TodoActionType } from "./TodoTypes";
 
-export const reducer = (state: StateType, action: TodoActionType) => {
+export const reducer = (state: TodoStateType, action: TodoActionType) => {
   switch (action.type) {
+    case "LOAD_TODOS": {
+      return { ...state, todos: action.payload.todos };
+    }
+
     case "ADD_TODO": {
       let newTodos: TodoType[] = [];
 

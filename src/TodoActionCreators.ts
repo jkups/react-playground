@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { TodoActionType } from "./TodoTypes";
+import { TodoActionType, TodoType } from "./TodoTypes";
 
 export const addTodo = (title: string | undefined): TodoActionType => {
   return {
@@ -18,4 +18,12 @@ export const updateTodo = (id: string, value: string): TodoActionType => {
 
 export const editTodo = (id: string): TodoActionType => {
   return { type: "EDIT_TODO", payload: { id: id } };
+};
+
+export const loadTodos = (todos: TodoType[]): TodoActionType => {
+  return { type: "LOAD_TODOS", payload: { todos: todos } };
+};
+
+export const fetchingTodos = (): TodoActionType => {
+  return { type: "FETCH_TODOS" };
 };
