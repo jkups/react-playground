@@ -1,6 +1,10 @@
-import { useEffect, createContext } from "react";
+import { createContext } from "react";
 import { reducer } from "./TodoReducer";
-import { TodoActionType, TodosStateType } from "./TodoTypes";
+import { TodosStateType } from "./TodoTypes";
+import {
+  useRedoUndoReducer,
+  RedoUndoActionType,
+} from "./hooks/useRedoUndoReducer";
 import fetchTodos from "./common/fetchTodos";
 import useThunkReducer from "./hooks/useThunkReducer";
 
@@ -14,7 +18,7 @@ const initialState: TodosStateType = {
   future: [],
 };
 
-const dispatch: React.Dispatch<TodoActionType> = () => null;
+const dispatch: React.Dispatch<RedoUndoActionType> = () => null;
 
 export const TodoContext = createContext({
   state: initialState,
@@ -22,9 +26,12 @@ export const TodoContext = createContext({
 });
 
 const TodoContextProvider = ({ children }: TodoContextProviderProp) => {
-  const [state, dispatch] = useThunkReducer(reducer, initialState);
-
-  useEffect(() => dispatch(fetchTodos), []);
+  const [state, dispatch] = useRedoUndoReducer(
+    reducer,
+    initialState,
+    useThunkReducer,
+    fetchTodos
+  );
 
   return (
     <TodoContext.Provider value={{ state, dispatch }}>

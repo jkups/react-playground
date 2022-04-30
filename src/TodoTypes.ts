@@ -1,7 +1,3 @@
-interface RedoUndoAction {
-  type: "UNDO_TODO" | "REDO_TODO";
-}
-
 interface BasicTodoAction {
   type: "EDIT_TODO" | "DELETE_TODO";
   payload: { id: string };
@@ -47,5 +43,4 @@ export type TodoActionType =
   | BasicTodoAction
   | AddTodoAction
   | UpdateTodoAction
-  | LoadTodoAction
-  | RedoUndoAction;
+  | LoadTodoAction;

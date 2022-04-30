@@ -1,15 +1,9 @@
-import { TodoActionType, TodosStateType } from "./TodoTypes";
+import { TodoActionType, TodosType } from "./TodoTypes";
 
-export const reducer = (state: TodosStateType, action: TodoActionType) => {
+export const reducer = (state: TodosType, action: TodoActionType) => {
   switch (action.type) {
     case "LOAD_TODOS": {
-      const newPresent = { ...state.present, todos: action.payload.todos };
-
-      return {
-        past: state.past,
-        present: newPresent,
-        future: state.future,
-      };
+      return { ...state, todos: action.payload.todos };
     }
 
     case "ADD_TODO": {
@@ -17,51 +11,33 @@ export const reducer = (state: TodosStateType, action: TodoActionType) => {
       if (!action.payload.title) return state;
 
       const newTodos = [
-        ...state.present.todos,
+        ...state.todos,
         { id: action.payload.id, title: action.payload.title, edit: false },
       ];
 
-      const newPresent = { ...state.present, todos: newTodos };
-
-      return {
-        past: [state.present, ...state.past],
-        present: newPresent,
-        future: state.future,
-      };
+      return { ...state, todos: newTodos };
     }
 
     case "DELETE_TODO": {
-      const newTodos = state.present.todos.filter(
+      const newTodos = state.todos.filter(
         (todo) => todo.id !== action.payload.id
       );
 
-      const newPresent = { ...state.present, todos: newTodos };
-
-      return {
-        past: [state.present, ...state.past],
-        present: newPresent,
-        future: state.future,
-      };
+      return { ...state, todos: newTodos };
     }
 
     case "EDIT_TODO": {
-      const newTodos = state.present.todos.map((todo) => {
+      const newTodos = state.todos.map((todo) => {
         const newTodo = { ...todo };
         newTodo.edit = todo.id === action.payload.id ? true : false;
         return newTodo;
       });
 
-      const newPresent = { todos: newTodos, editTodo: action.payload.id };
-
-      return {
-        past: [state.present, ...state.past],
-        present: newPresent,
-        future: state.future,
-      };
+      return { todos: newTodos, editTodo: action.payload.id };
     }
 
     case "UPDATE_TODO": {
-      const newTodos = state.present.todos.map((todo) => {
+      const newTodos = state.todos.map((todo) => {
         const inputValue = action.payload.value;
         const newTodo = { ...todo };
 
@@ -71,33 +47,7 @@ export const reducer = (state: TodosStateType, action: TodoActionType) => {
         return newTodo;
       });
 
-      const newPresent = { ...state.present, todos: newTodos };
-
-      return {
-        past: [state.present, ...state.past],
-        present: newPresent,
-        future: state.future,
-      };
-    }
-
-    case "UNDO_TODO": {
-      const [newPresent, ...newPast] = state.past;
-
-      return {
-        past: newPast,
-        present: newPresent,
-        future: [state.present, ...state.future],
-      };
-    }
-
-    case "REDO_TODO": {
-      const [newPresent, ...newFuture] = state.future;
-
-      return {
-        past: [state.present, ...state.past],
-        present: newPresent,
-        future: newFuture,
-      };
+      return { ...state, todos: newTodos };
     }
 
     default:
