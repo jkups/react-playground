@@ -1,6 +1,6 @@
-import { useEffect, useReducer, createContext } from "react";
+import { useEffect, createContext } from "react";
 import { reducer } from "./TodoReducer";
-import { TodoStateType, TodoActionType } from "./TodoTypes";
+import { TodoActionType, TodosStateType } from "./TodoTypes";
 import fetchTodos from "./common/fetchTodos";
 import useThunkReducer from "./hooks/useThunkReducer";
 
@@ -8,7 +8,12 @@ interface TodoContextProviderProp {
   children: React.ReactNode;
 }
 
-const initialState: TodoStateType = { todos: [], editTodo: "" };
+const initialState: TodosStateType = {
+  past: [],
+  present: { todos: [], editTodo: "" },
+  future: [],
+};
+
 const dispatch: React.Dispatch<TodoActionType> = () => null;
 
 export const TodoContext = createContext({

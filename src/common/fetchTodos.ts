@@ -6,7 +6,7 @@ const url = "https://star-wars-character-search.glitch.me/api/characters";
 export default function fetchTodos(dispatch: React.Dispatch<TodoActionType>) {
   const transformResponse = (characters: any[]) => {
     return characters.map((character) => ({
-      id: character.id,
+      id: character.id.toString(),
       title: character.name,
       edit: false,
     }));

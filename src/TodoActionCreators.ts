@@ -24,6 +24,6 @@ export const loadTodos = (todos: TodoType[]): TodoActionType => {
   return { type: "LOAD_TODOS", payload: { todos: todos } };
 };
 
-export const fetchingTodos = (): TodoActionType => {
-  return { type: "FETCH_TODOS" };
-};
+export const undoTodo = (): TodoActionType => ({ type: "UNDO_TODO" });
+
+export const redoTodo = (): TodoActionType => ({ type: "REDO_TODO" });

@@ -1,3 +1,7 @@
+interface RedoUndoAction {
+  type: "UNDO_TODO" | "REDO_TODO";
+}
+
 interface BasicTodoAction {
   type: "EDIT_TODO" | "DELETE_TODO";
   payload: { id: string };
@@ -28,13 +32,20 @@ export interface TodoType {
   edit: boolean;
 }
 
-export interface TodoStateType {
+export interface TodosType {
   todos: TodoType[];
   editTodo: string;
+}
+
+export interface TodosStateType {
+  past: TodosType[];
+  present: TodosType;
+  future: TodosType[];
 }
 
 export type TodoActionType =
   | BasicTodoAction
   | AddTodoAction
   | UpdateTodoAction
-  | LoadTodoAction;
+  | LoadTodoAction
+  | RedoUndoAction;

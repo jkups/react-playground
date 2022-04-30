@@ -10,7 +10,10 @@ import {
   deleteTodo,
   updateTodo,
   editTodo,
+  undoTodo,
+  redoTodo,
 } from "./TodoActionCreators";
+import RedoUndoButton from "./ui/RedoUndoButton";
 
 function TodoList() {
   const { state, dispatch } = useContext(TodoContext);
@@ -33,16 +36,20 @@ function TodoList() {
     edit ? dispatch(updateTodo(id, value)) : dispatch(editTodo(id));
   };
 
+  const handleUndo = () => dispatch(undoTodo());
+  const handleRedo = () => dispatch(redoTodo());
+
   useEffect(() => {
     if (addInputRef.current) {
       addInputRef.current.value = "";
       addInputRef.current.focus();
     }
-  }, [state.todos]);
+  }, [state.present.todos]);
 
   useEffect(() => {
-    if (!!state.editTodo) updateInputRef.current[state.editTodo].focus();
-  }, [state.editTodo]);
+    if (!!state.present.editTodo)
+      updateInputRef.current[state.present.editTodo].focus();
+  }, [state.present.editTodo]);
 
   return (
     <div className="max-w-screen-md mx-auto p-4">
@@ -60,8 +67,19 @@ function TodoList() {
         <SubmitButton title="add" />
       </form>
       <section>
-        {state.todos.length ? (
-          state.todos.map((todo) => (
+        <RedoUndoButton
+          title="Undo"
+          disabled={!state.past.length}
+          onRedoUndo={handleUndo}
+        />
+        <RedoUndoButton
+          title="Redo"
+          disabled={!state.future.length}
+          onRedoUndo={handleRedo}
+        />
+
+        {state.present.todos.length ? (
+          state.present.todos.map((todo) => (
             <TodoItem ref={updateInputRef} key={todo.id} todo={todo}>
               <DeleteButton id={todo.id} onDelete={handleDelete} />
               <EditButton

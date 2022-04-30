@@ -12,7 +12,7 @@ const TodoItem = forwardRef(
     updateRef: ForwardedRef<UpdateRefType>
   ) => {
     return (
-      <div className="rounded border border-blue-400 p-4 my-5">
+      <div className="rounded border border-blue-400 p-4 my-5 first:mt-0">
         {todo.edit ? (
           <input
             ref={(el) => updateRef && (updateRef.current[todo.id] = el)}
